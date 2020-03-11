@@ -23,6 +23,7 @@ public class Parole {
 	public void reset() {
 		this.mappaParole.clear();
 	}
+	//prova
 	
 	public boolean contiene(String s) {
 		if (this.mappaParole.containsKey(s))
