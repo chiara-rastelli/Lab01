@@ -1,9 +1,10 @@
 package it.polito.tdp.parole;
 
-import it.polito.tdp.parole.model.Parole;
-
+import java.awt.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.parole.model.Parole;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,7 +13,7 @@ import javafx.scene.control.TextField;
 
 public class FXMLController {
 	
-	Parole elenco ;
+	Parole parole = new Parole();
 
     @FXML
     private ResourceBundle resources;
@@ -31,15 +32,57 @@ public class FXMLController {
 
     @FXML
     private Button btnReset;
+    
+    @FXML
+    private Button btnCancel;
+    
+    @FXML
+    private Label lblWarning;
+    
+    @FXML
+    private TextArea txtTempi;
 
     @FXML
     void doInsert(ActionEvent event) {
-    	// TODO
+    	
+    	String daInserire = this.txtParola.getText();
+    	
+    /*	if (daInserire.compareTo(null)==0) {
+    		this.lblWarning.setText("Inserire una parola");
+    		return;
+    	}
+   	*/
+    /*	for (int i = 0; i<daInserire.length(); i++) {
+    		if (!Character.isAlphabetic(daInserire.charAt(i)))
+    			this.txtResult.appendText("Parola non valida! \n");
+    		return;
+    	}
+    	
+    	if (daInserire.compareTo("")==0) {
+    		this.txtResult.appendText("Scrivi una parola! \n");
+    		return;
+    	}
+    	*/
+    	parole.addParola(daInserire);
+    //	System.out.println(parole.toString());
+    	this.txtResult.setText(parole.toString());
+    	this.txtTempi.appendText(Double.toString(System.nanoTime())+"\n");
+    	this.txtParola.clear();
     }
 
     @FXML
     void doReset(ActionEvent event) {
-    	// TODO
+    	parole.reset();
+    	this.txtResult.setText(parole.toString());
+    	this.txtTempi.appendText(Double.toString(System.nanoTime())+"\n");
+    }
+    
+    @FXML
+    void doCancel(ActionEvent event) {
+    		parole.cancella(this.txtResult.getSelectedText());
+    		this.txtResult.setText(parole.toString());
+    		this.txtTempi.appendText(Long.toString(System.nanoTime())+"\n");
+    		return;	
     }
 
     @FXML
@@ -49,6 +92,5 @@ public class FXMLController {
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
         assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'Scene.fxml'.";
 
-        elenco = new Parole() ;
     }
 }
